@@ -32,7 +32,7 @@ mkdir -p "$DOWNLOAD_DIR"
 RELEASE="$(curl -sSL https://dl.k8s.io/release/stable.txt)"
 cd $DOWNLOAD_DIR
 curl -L --remote-name-all https://dl.k8s.io/release/${RELEASE}/bin/linux/${ARCH}/{kubeadm,kubelet,kubectl}
-chmod +x "$DOWNLOAD_DIR/{kubeadm,kubelet,kubectl}"
+chmod +x "$DOWNLOAD_DIR/kube*"
 
 RELEASE_VERSION="v0.16.2"
 curl -sSL "https://raw.githubusercontent.com/kubernetes/release/${RELEASE_VERSION}/cmd/krel/templates/latest/kubelet/kubelet.service" | sed "s:/usr/bin:${DOWNLOAD_DIR}:g" | sudo tee /usr/lib/systemd/system/kubelet.service
