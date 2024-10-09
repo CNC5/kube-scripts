@@ -48,7 +48,7 @@ version = 2
     stream_server_port = "0"
     tolerate_missing_hugetlb_controller = true
     unset_seccomp_profile = ""
-    sandbox_image = "registry.k8s.io/pause:3.9"
+    sandbox_image = "registry.k8s.io/pause:3.10"
     enable_selinux = true
     selinux_category_range = 1024
 
