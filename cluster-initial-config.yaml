@@ -1,7 +1,7 @@
 kind: ClusterConfiguration
 apiVersion: kubeadm.k8s.io/v1beta3
-kubernetesVersion: v1.30.0
-controlPlaneEndpoint: "control-plane.lolava.xyz:6443"
+kubernetesVersion: v1.31.1
+controlPlaneEndpoint: "<load-balancer-endpoint>:6443"
 clusterName: kubernetes
 networking:
   dnsDomain: cluster.local
