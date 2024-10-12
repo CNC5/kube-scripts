@@ -1,4 +1,6 @@
-wg genkey | tee privatekey | wg pubkey > publickey^C
+apt install wireguard
+
+wg genkey | tee privatekey | wg pubkey > publickey
 
 /etc/wireguard/wg0.conf
 [Interface]
