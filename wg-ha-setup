@@ -1,0 +1,21 @@
+wg genkey | tee privatekey | wg pubkey > publickey^C
+
+/etc/wireguard/wg0.conf
+[Interface]
+Address = 10.12.0.3/24
+ListenPort = 51820
+PrivateKey = <privkey>
+
+[Peer]
+PublicKey = <pubkey>
+Endpoint = 192.168.122.100:51820
+AllowedIPs = 10.12.0.1/32
+PersistentKeepalive = 25
+
+[Peer]
+PublicKey = <pubkey>
+Endpoint = 192.168.122.101:51820
+AllowedIPs = 10.12.0.2/32
+PersistentKeepalive = 25
+
+wg-quick up wg0
