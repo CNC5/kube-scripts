@@ -1,3 +1,5 @@
+#!/usr/bin/bash
+
 apt install wireguard
 
 mkdir -p wg
