@@ -1,4 +1,15 @@
-#/usr/bin/env bash
+#/usr/bin/bash
+
+distro_id=$(cat /etc/os-release | grep '^ID=' | cut -d '=' -f 2)
+if [[ $distro_id = ubuntu ]]; then
+    apt install conntrack
+else
+    echo "Not Ubuntu system, can not install"
+    return 1
+fi
+
+which sysctl && \
+echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
 
 ARCH="amd64"
 
@@ -40,3 +51,4 @@ mkdir -p /usr/lib/systemd/system/kubelet.service.d
 curl -sSL "https://raw.githubusercontent.com/kubernetes/release/${RELEASE_VERSION}/cmd/krel/templates/latest/kubeadm/10-kubeadm.conf" | sed "s:/usr/bin:${DOWNLOAD_DIR}:g" | sudo tee /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
 
 systemctl daemon-reload
+systemctl enable kubelet.service
