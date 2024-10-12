@@ -13,11 +13,15 @@ etcd:
     dataDir: /var/lib/etcd
 apiServer:
   certSANs:
-    - "192.168.122.100"
-    - "192.168.122.101"
-    - "192.168.122.102"
+    - "<ip|domain>"
 imageRepository: registry.k8s.io
 ---
 kind: KubeletConfiguration
 apiVersion: kubelet.config.k8s.io/v1beta1
 cgroupDriver: systemd
+#---
+#kind: InitConfiguration
+#apiVersion: kubeadm.k8s.io/v1beta3
+#localAPIEndpoint:
+#  advertiseAddress: <ip>
+#  bindPort: 6443
