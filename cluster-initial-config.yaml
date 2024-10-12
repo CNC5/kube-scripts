@@ -11,6 +11,11 @@ certificatesDir: /etc/kubernetes/pki
 etcd:
   local:
     dataDir: /var/lib/etcd
+apiServer:
+  certSANs:
+    - "192.168.122.100"
+    - "192.168.122.101"
+    - "192.168.122.102"
 imageRepository: registry.k8s.io
 ---
 kind: KubeletConfiguration
