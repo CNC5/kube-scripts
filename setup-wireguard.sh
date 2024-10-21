@@ -1,5 +1,12 @@
 #!/usr/bin/bash
 
+random_port=$((20000 + $RANDOM % 65535))
+while ss -tulpn | grep $random_port
+do
+    echo "Port $random_port is busy, repicking"
+    random_port=$((20000 + $RANDOM % 65535))
+done
+
 printf "Node internal ip: "
 read internal_ip
 apt install -y curl
@@ -13,13 +20,6 @@ public_key=$(echo $private_key | wg pubkey)
 
 echo $private_key > wg/privatekey
 echo $public_key > wg/publickey
-
-random_port=$((20000 + $RANDOM % 65536))
-while ! ss -tulpn | grep $random_port
-do
-    echo "Port $random_port is busy, repicking"
-    random_port=$((20000 + $RANDOM % 65536))
-done
 
 cat <<WG0 > /etc/wireguard/wg0.conf
 # Interface
