@@ -1,16 +1,30 @@
 #/usr/bin/bash
 
 distro_id=$(cat /etc/os-release | grep '^ID=' | cut -d '=' -f 2)
-if [[ $distro_id = ubuntu ]]; then
-    apt install conntrack
+if [ $distro_id = ubuntu ]; then
+    apt install conntrack socat
 else
-    echo "Not Ubuntu system, can not install"
+    echo "Not an Ubuntu system, can not install"
     return 1
 fi
 
-which sysctl && \
-echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
+if ldd /bin/ls | grep musl; then
+    echo "This script is only tested to work on glibc systems, if you know what you're doing and wish to continue press Enter"
+    read
+else
+    ;
+fi
 
+echo "Enabling net.ipv4.ip_forward"
+which sysctl && \
+! grep "^net.ipv4.ip_forward" /etc/sysctl.conf &&
+echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
+sysctl net.ipv4.ip_forward=1
+
+echo "Disabling swap"
+swapoff -a
+
+echo "Downloading binaries"
 ARCH="amd64"
 
 # Containerd
@@ -50,5 +64,10 @@ curl -sSL "https://raw.githubusercontent.com/kubernetes/release/${RELEASE_VERSIO
 mkdir -p /usr/lib/systemd/system/kubelet.service.d
 curl -sSL "https://raw.githubusercontent.com/kubernetes/release/${RELEASE_VERSION}/cmd/krel/templates/latest/kubeadm/10-kubeadm.conf" | sed "s:/usr/bin:${DOWNLOAD_DIR}:g" | sudo tee /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
 
+
+mkdir -p /etc/containerd
+cp systemd-containerd-config-that-always-works.toml /etc/containerd/config.toml
 systemctl daemon-reload
+
+systemctl enable --now containerd
 systemctl enable kubelet.service
