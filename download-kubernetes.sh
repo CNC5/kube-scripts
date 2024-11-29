@@ -25,7 +25,7 @@ if ldd /bin/ls | grep musl; then
 fi
 
 wget(){
-  /usr/bin/wget --quiet $@
+  /usr/bin/wget -nv $@
 }
 
 echo "Enabling net.ipv4.ip_forward"
