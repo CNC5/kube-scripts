@@ -78,3 +78,6 @@ systemctl daemon-reload
 systemctl enable containerd.service
 systemctl restart containerd.service
 systemctl enable kubelet.service
+
+echo "Will preload kubernetes images now, if you do not want this - please press Ctrl+C"
+kubeadm config images pull
