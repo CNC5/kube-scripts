@@ -11,8 +11,6 @@ fi
 if ldd /bin/ls | grep musl; then
     echo "This script is only tested to work on glibc systems, if you know what you're doing and wish to continue press Enter"
     read
-else
-    ;
 fi
 
 echo "Enabling net.ipv4.ip_forward"
@@ -57,7 +55,7 @@ mkdir -p "$DOWNLOAD_DIR"
 RELEASE="$(curl -sSL https://dl.k8s.io/release/stable.txt)"
 cd $DOWNLOAD_DIR
 curl -L --remote-name-all https://dl.k8s.io/release/${RELEASE}/bin/linux/${ARCH}/{kubeadm,kubelet,kubectl}
-chmod +x "$DOWNLOAD_DIR/kube*"
+chmod +x "$DOWNLOAD_DIR/kubectl" && chmod +x "$DOWNLOAD_DIR/kubelet" && chmod +x "$DOWNLOAD_DIR/kubeadm"
 
 RELEASE_VERSION="v0.16.2"
 curl -sSL "https://raw.githubusercontent.com/kubernetes/release/${RELEASE_VERSION}/cmd/krel/templates/latest/kubelet/kubelet.service" | sed "s:/usr/bin:${DOWNLOAD_DIR}:g" | sudo tee /usr/lib/systemd/system/kubelet.service
@@ -66,7 +64,7 @@ curl -sSL "https://raw.githubusercontent.com/kubernetes/release/${RELEASE_VERSIO
 
 
 mkdir -p /etc/containerd
-cp systemd-containerd-config-that-always-works.toml /etc/containerd/config.toml
+cp $(pwd)/systemd-containerd-config-that-always-works.toml /etc/containerd/config.toml
 systemctl daemon-reload
 
 systemctl enable --now containerd
