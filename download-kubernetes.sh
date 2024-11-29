@@ -16,7 +16,7 @@ CONTAINERD_VERSION="1.7.20"
 CRICTL_VERSION="v1.30.0"
 CNI_PLUGINS_VERSION="v1.3.0"
 KUBERNETES_TEMPLATES_RELEASE="v0.16.2"
-KUBERNETES_RELEASE="$(curl -sSL https://dl.k8s.io/KUBERNETES_RELEASE/stable.txt)"
+KUBERNETES_RELEASE="$(curl -sSL https://dl.k8s.io/release/stable.txt)"
 
 
 if ldd /bin/ls | grep musl; then
