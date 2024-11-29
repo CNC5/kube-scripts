@@ -75,5 +75,6 @@ mkdir -p /etc/containerd
 cp $(pwd)/systemd-containerd-config-that-always-works.toml /etc/containerd/config.toml
 systemctl daemon-reload
 
-systemctl enable --now containerd.service
+systemctl enable containerd.service
+systemctl restart containerd.service
 systemctl enable kubelet.service
