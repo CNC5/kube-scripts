@@ -1,9 +1,0 @@
-metrics API manifest HA:
-kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/high-availability-1.21+.yaml
-
-fetch etcd status
-etcdctl \
-    --cacert=/etc/kubernetes/pki/etcd/ca.crt \
-    --cert=/etc/kubernetes/pki/etcd/healthcheck-client.crt \
-    --key=/etc/kubernetes/pki/etcd/healthcheck-client.key \
-    --endpoints=<endpoint-ip>:2379 member list
